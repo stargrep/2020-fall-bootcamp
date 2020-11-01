@@ -1,4 +1,6 @@
 from flask import Flask
+from flask import request
+
 app = Flask(__name__)
 
 
@@ -26,17 +28,6 @@ def get_client_rates():
     import pandas as pd
     df = pd.read_json("client_rate.json")
     return df.to_dict()
-
-
-def update_client_rates(client_id, rate):
-    """
-    update or insert a client_id - rate pair.
-
-    :param client_id: string, e.g. 'client1'
-    :param rate: float, e.g. 0.1
-    :return:
-    """
-    pass
 # -- DO NOT EDIT END
 
 
@@ -50,6 +41,7 @@ def get_client_rate(client_id):
     :param client_id: str
     :return: http response
     """
+    # How to get the actual rate from client_id?
     return client_id
 # -- TODO END: Part 1
 
@@ -64,6 +56,20 @@ def upsert_client_rate():
     """
     # We want to update if the client exist in the client_rate.json data
     # Or insert a new client-rate pair into client_rate.json data
+    print(request)
+
+    # After getting post request - how to update json file?
+    pass
+
+
+def update_client_rates(client_id, rate):
+    """
+    update or insert a client_id - rate pair.
+
+    :param client_id: string, e.g. 'client1'
+    :param rate: float, e.g. 0.1
+    :return:
+    """
     pass
 # -- TODO END: Part 4
 

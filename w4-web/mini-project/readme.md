@@ -2,12 +2,12 @@
 
 ### Requirement
 There are 6 parts of this project, totally 100 points.
-* Part 1 - 20 points
-* Part 2 - 15 points
-* Part 3 - 10 points
-* Part 4 - 30 points
-* Part 5 - 15 points
-* Part 6 - 10 points
+* Part 1 - 20 points (GET)
+* Part 2 - 15 points (API 1 for GET)
+* Part 3 - 10 points (Test for API 1)
+* Part 4 - 30 points (POST)
+* Part 5 - 15 points (API 2 for POST)
+* Part 6 - 10 points (Test for API 2)
 
 ### Instructions 
 #### How to run 

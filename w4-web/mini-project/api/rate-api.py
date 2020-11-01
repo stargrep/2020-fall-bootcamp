@@ -10,12 +10,16 @@ def get_rate(client_id):
     import requests
     response = requests.get("http://127.0.0.1:5000/rate/" + client_id)
     print(response)
+    return response.content
     # Sample end
 # -- TODO END: Part 2
 
 
 # -- TODO: Part 5, write an API client so we are able to upsert client-rate
-
+def upsert_client_rate(client_id, rate):
+    # call http post - http post call to 127.0.0.1:5000/rate
+    import requests
+    response = requests.post()  # what to post?
 # -- TODO END: Part 5
 
 
@@ -26,6 +30,7 @@ def get_rate(client_id):
 def test_get_rate():
     print(get_rate('client1'))
     assert get_rate('client1') == 0.2
+    # assert get_rate('client0') == 0.0
 # -- TODO END: Part 3
 
 
