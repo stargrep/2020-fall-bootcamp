@@ -1,5 +1,6 @@
 from flask import Flask
 from flask import request
+from flask import json
 
 app = Flask(__name__)
 
@@ -59,7 +60,7 @@ def upsert_client_rate():
     print(request)
 
     # After getting post request - how to update json file?
-    pass
+    return request.get_json()
 
 
 def update_client_rates(client_id, rate):
@@ -70,6 +71,9 @@ def update_client_rates(client_id, rate):
     :param rate: float, e.g. 0.1
     :return:
     """
+    # check if exist
+    # replace or add client rate
+    # re-write the file
     pass
 # -- TODO END: Part 4
 
