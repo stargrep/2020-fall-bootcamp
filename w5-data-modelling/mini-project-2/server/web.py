@@ -42,6 +42,7 @@ def create_connection(path):
 
     return connection
 
+
 def execute_query(connection, query):
     cursor = connection.cursor()
     try:
@@ -101,7 +102,7 @@ def upsert_client_rate():
     # Or insert a new client-rate pair into client_rate.json data
     data = request.get_json()
     update_client_rates(data["client_id"], data["rate"])
-    return "SUCCESS UPDATED!"
+    return "SUCCESSFULLY UPDATED!"
 
 
 def update_client_rates(client_id, rate):
@@ -122,6 +123,7 @@ def update_client_rates(client_id, rate):
 
 # -- TODO: Part 3, clean up this file, and remove 'client_rate.json', we should not read/write from file.
 # -- TODO END: Part 3
+
 
 if __name__ == "__main__":
     load_data(":memory:")

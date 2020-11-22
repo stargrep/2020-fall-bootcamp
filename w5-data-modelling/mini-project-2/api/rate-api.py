@@ -26,13 +26,18 @@ def upsert_client_rate(client_id, rate):
 def test_get_rate():
     response = get_rate('client1')
     assert float(response) == 0.2
-
+    # 0.30000000004
+    # 1. delta = 0.00001
+    # 0.3
+    # number > target - delta and number < target + delta
+    # 2. int(number * 10000) = int
+    # 3. search
 
 def test_post_rate():
     print(get_rate('client100'))  # should be 'NOT FOUND'
     # if we add this client already, then will not be NOT FOUND
-    upsert_client_rate('client100', 2)
-    assert float(get_rate('client100')) == 2
+    upsert_client_rate('client100', 10)
+    assert float(get_rate('client100')) == 10
 
 
 # DO NOT DELETE
