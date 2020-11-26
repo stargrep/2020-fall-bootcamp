@@ -18,20 +18,6 @@ def default():
     return "FIRST PROJECT - we have " + str(len(get_client_rates())) + " clients in total."
 
 
-# sample data load function
-# This is a temporary data file - when we get to know more about database and cloud storage
-# we would not be using this kind of data storage.
-def get_client_rates():
-    """
-    return all the client - rate pairs we have.
-
-    :return: dict {id: {'rate':float}}
-    """
-    import pandas as pd
-    df = pd.read_json("client_rate.json")
-    return df.to_dict()
-
-
 def create_connection(path):
     connection = None
     try:
@@ -82,17 +68,11 @@ def get_client_rate(client_id):
     :param client_id: str
     :return: http response
     """
-    # How to get the actual rate from client_id?
-    # all_clients = get_client_rates()
-    # if client_id in all_clients:
-    #     return str(all_clients[client_id]['rate'])
-    # -- TODO: Part 1, Replace to lookup from database
     conn = create_connection("test.db")
-    res = execute_read_query(conn,
-                             "SELECT rate FROM client_rates WHERE client_id = {};".format(client_id))
+    res = execute_read_query(conn, f"SELECT rate FROM client_rates WHERE client_id = '{client_id}'")
+    if res is None or len(res) == 0:
+        return "NOT FOUND"
     return str(res[0][0])
-    # -- TODO END: Part 1
-    return "NOT_FOUND"
 
 
 @app.route("/rate", methods=['POST'])
@@ -105,10 +85,7 @@ def upsert_client_rate():
     # We want to update if the client exist in the client_rate.json data
     # Or insert a new client-rate pair into client_rate.json data
     data = request.get_json()
-    #update_client_rates(data["client_id"], data["rate"])
-    # new def update_client_rates_db()
-    # 1. if exist - update
-    # 2. not exist - insert - query max - then + 1
+    update_client_rates(data["client_id"], data["rate"])
     return "SUCCESSFULLY UPDATED!"
 
 
@@ -120,16 +97,15 @@ def update_client_rates(client_id, rate):
     :param rate: float, e.g. 0.1
     :return:
     """
-    import pandas as pd
-    all_clients = get_client_rates()
-    all_clients[client_id] = {"rate": rate}
-    df = pd.DataFrame.from_dict(all_clients)
-    df.to_json('client_rate.json')
-    # -- TODO: Part 2, Replace to write to database
-    # -- TODO END: Part 2
-
-# -- TODO: Part 3, clean up this file, and remove 'client_rate.json', we should not read/write from file.
-# -- TODO END: Part 3
+    conn = create_connection("test.db")
+    res = execute_read_query(conn, f"SELECT id FROM client_rates WHERE client_id = '{client_id}'")
+    if res is None or len(res) == 0:
+        # insert
+        execute_query(conn, f"INSERT INTO client_rates (client_id, rate) VALUES('{client_id}', {rate})")
+    else:
+        # update
+        res_id = res[0][0]
+        execute_query(conn, f"UPDATE client_rates SET rate = {rate} WHERE id='{res_id}'")
 
 
 if __name__ == "__main__":
